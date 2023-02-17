@@ -243,8 +243,8 @@ document.addEventListener('DOMContentLoaded', function () {
       return str
     }
 
-    const lazyloadFn = (i, arr, limit) => {
-      const loadItem = limit
+    const lazyloadFn = (i, arr) => {
+      const loadItem = i.getAttribute('data-limit')
       const arrLength = arr.length
       if (arrLength > loadItem) i.insertAdjacentHTML('beforeend', htmlStr(arr.splice(0, loadItem)))
       else {
@@ -254,43 +254,29 @@ document.addEventListener('DOMContentLoaded', function () {
       return arrLength > loadItem ? loadItem : arrLength
     }
 
-    const fetchUrl = async (url) => {
-      const response = await fetch(url)
-      return await response.json()
-    }
-
-    const runJustifiedGallery = (item, arr) => {
+    ele.forEach(item => {
+      const arr = JSON.parse(item.querySelector('.gallery-data').textContent)
       if (!item.classList.contains('lazyload')) item.innerHTML = htmlStr(arr)
       else {
+        lazyloadFn(item, arr)
         const limit = item.getAttribute('data-limit')
-        lazyloadFn(item, arr, limit)
         const clickBtnFn = () => {
-          const lastItemLength = lazyloadFn(item, arr, limit)
+          const lastItemLength = lazyloadFn(item, arr)
           fjGallery(item, 'appendImages', item.querySelectorAll(`.fj-gallery-item:nth-last-child(-n+${lastItemLength})`))
           btf.loadLightbox(item.querySelectorAll('img'))
           lastItemLength < limit && item.nextElementSibling.removeEventListener('click', clickBtnFn)
         }
         item.nextElementSibling.addEventListener('click', clickBtnFn)
       }
-      btf.initJustifiedGallery(item)
-      btf.loadLightbox(item.querySelectorAll('img'))
-    }
-
-    const addJustifiedGallery = () => {
-      ele.forEach(item => {
-        item.classList.contains('url')
-          ? fetchUrl(item.textContent).then(res => { runJustifiedGallery(item, res) })
-          : runJustifiedGallery(item, JSON.parse(item.textContent))
-      })
-    }
+    })
 
     if (window.fjGallery) {
-      addJustifiedGallery()
+      setTimeout(() => { btf.initJustifiedGallery(ele) }, 100)
       return
     }
 
     getCSS(`${GLOBAL_CONFIG.source.justifiedGallery.css}`)
-    getScript(`${GLOBAL_CONFIG.source.justifiedGallery.js}`).then(addJustifiedGallery)
+    getScript(`${GLOBAL_CONFIG.source.justifiedGallery.js}`).then(() => { btf.initJustifiedGallery(ele) })
   }
 
   /**

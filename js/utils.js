@@ -252,7 +252,7 @@ const btf = {
   },
 
   initJustifiedGallery: function (selector) {
-    const runJustifiedGallery = i => {
+    selector.forEach(function (i) {
       if (!btf.isHidden(i)) {
         fjGallery(i, {
           itemSelector: '.fj-gallery-item',
@@ -263,10 +263,7 @@ const btf = {
           }
         })
       }
-    }
-
-    if (Array.from(selector).length === 0) runJustifiedGallery(selector)
-    else selector.forEach(i => { runJustifiedGallery(i) })
+    })
   },
 
   updateAnchor: (anchor) => {

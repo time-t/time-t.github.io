@@ -153,18 +153,24 @@ window.addEventListener('load', () => {
 
               // highlight all keywords
               keywords.forEach(keyword => {
-                matchContent = matchContent.replaceAll(keyword, '<span class="search-keyword">' + keyword + '</span>')
-                dataTitle = dataTitle.replaceAll(keyword, '<span class="search-keyword">' + keyword + '</span>')
+                let regexStr = keyword
+                const specialRegex = /[^\w\s]+/ // match special characters
+                if (keyword.length === 1 && specialRegex.test(keyword)) {
+                  regexStr = `\\${keyword}`
+                }
+                const regS = new RegExp(regexStr, 'gi')
+                matchContent = matchContent.replace(regS, '<span class="search-keyword">' + keyword + '</span>')
+                dataTitle = dataTitle.replace(regS, '<span class="search-keyword">' + keyword + '</span>')
               })
 
-              str += '<div class="local-search__hit-item"><a href="' + dataUrl + '"><span class="search-result-title">' + dataTitle + '</span>'
+              str += '<div class="local-search__hit-item"><a href="' + dataUrl + '" class="search-result-title">' + dataTitle + '</a>'
               count += 1
 
               if (dataContent !== '') {
                 str += '<p class="search-result">' + pre + matchContent + post + '</p>'
               }
             }
-            str += '</a></div>'
+            str += '</div>'
           }
         })
         if (count === 0) {
