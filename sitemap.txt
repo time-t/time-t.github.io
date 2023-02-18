@@ -1,8 +1,9 @@
+http://example.com/2023/02/14/ed/
+http://example.com/2023/02/14/p1/
+http://example.com/download/index.html
 http://example.com/categories/index.html
 http://example.com/announcement/index.html
 http://example.com/1to6/index.html
-http://example.com/2023/02/14/ed/
-http://example.com/2023/02/14/p1/
 http://example.com/
-http://example.com/categories/%E5%8D%9A%E5%AE%A2%E9%94%99%E8%AF%AF%E4%BF%AE%E5%A4%8D/
 http://example.com/categories/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/
+http://example.com/categories/%E5%8D%9A%E5%AE%A2%E9%94%99%E8%AF%AF%E4%BF%AE%E5%A4%8D/
